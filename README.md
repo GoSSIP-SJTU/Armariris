@@ -35,7 +35,7 @@ Currently support:
  - string obfuscation
 
 ### Name origin - Amaryllis
-Amaryllis is a character in light novel <黄昏色の詠使い> and <氷結鏡界のエデン> written by 細音啓(sazaneK). Although nobody comprehends she, she still guards her sister and the world. Armariries is the meaning of Amaryllis in conlang Selahpheno in sazaneK's light novel.
+Amaryllis is a character in light novel <黄昏色の詠使い> and <氷結鏡界のエデン> written by 細音啓(sazaneK). Although nobody comprehends she, she still guards her sister and the world. Armariris is the meaning of Amaryllis in conlang Selahpheno in sazaneK's light novel.
 
 ### Install
 ```shell

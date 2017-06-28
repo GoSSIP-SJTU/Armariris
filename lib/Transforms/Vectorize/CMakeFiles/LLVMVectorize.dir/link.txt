@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../libLLVMVectorize.a  CMakeFiles/LLVMVectorize.dir/BBVectorize.cpp.o CMakeFiles/LLVMVectorize.dir/LoadStoreVectorizer.cpp.o CMakeFiles/LLVMVectorize.dir/LoopVectorize.cpp.o CMakeFiles/LLVMVectorize.dir/SLPVectorizer.cpp.o CMakeFiles/LLVMVectorize.dir/Vectorize.cpp.o
+/usr/bin/ranlib ../../libLLVMVectorize.a
