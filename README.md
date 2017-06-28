@@ -1,7 +1,7 @@
 # Armariris
 孤挺花（Armariris） --  由上海交通大学密码与计算机安全实验室维护的LLVM混淆框架
 
-主要作者：f1ys0ar（https://github.com/flysoar/）
+主要作者：f1ys0ar（https://github.com/flysoar/ ）
 
 ## 中文
 孤挺花（Armariris）: 基于LLVM的支持多平台多语言的混淆器
@@ -24,8 +24,14 @@ make -j4
 ```
 
 ### 用法
-编译时候添加命令行-mllvm -sobf,指定随机数生成器种子 -mllvm -seed=0xdeadbeaf
-
+编译时候添加选项开启字符串加密
+```shell
+-mllvm -sobf
+```
+指定随机数生成器种子
+```shell
+-mllvm -seed=0xdeadbeaf
+```
 
 ## English
 
@@ -35,7 +41,11 @@ Currently support:
  - string obfuscation
 
 ### Name origin - Amaryllis
-Amaryllis is a character in light novel <黄昏色の詠使い> and <氷結鏡界のエデン> written by 細音啓(sazaneK). Although nobody comprehends she, she still guards her sister and the world. Armariris is the meaning of Amaryllis in conlang Selahpheno in sazaneK's light novel.
+Amaryllis is a character in light novel <黄昏色の詠使い> and <氷結鏡界のエデン> written by 細音啓(sazaneK).
+
+Although nobody understands she, she still guards her sister and the world.
+
+Armariris is the meaning of Amaryllis in conlang Selahpheno in sazaneK's light novel.
 
 ### Install
 ```shell
@@ -47,5 +57,11 @@ make -j4
 ```
 
 ### Usage
-Add instruction -mllvm -sobf for opening string obfuscation when compile. Add instruction -mllvm -seed=0xdeadbeaf for setting random seed.
-
+Add option  for opening string obfuscation when compiling. 
+```shell
+-mllvm -sobf
+```
+Add option for setting random seed.
+```shell
+-mllvm -seed=0xdeadbeaf
+```
