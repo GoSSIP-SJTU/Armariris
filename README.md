@@ -12,6 +12,7 @@ Armariris是作者自创语言Selahpheno中孤挺花的意思.
 
 目前开放功能包括：
  - 字符串加密.
+  ![sobf](sobf.png)
 
 ### 安装
 
