@@ -35,17 +35,17 @@ make -j4
 
 ## English
 
-Armariris: an obfuscator bases on llvm for multiple languages and platforms. 
+Armariris: an obfuscator based on LLVM project for multiple languages and platforms. 
 
 Currently support:
  - string obfuscation
 
-### Name origin - Amaryllis
-Amaryllis is a character in light novel <黄昏色の詠使い> and <氷結鏡界のエデン> written by 細音啓(sazaneK).
 
-Although nobody understands she, she still guards her sister and the world.
+### Armariris
+Armariris is the alias of Amaryllis in conlang Selahpheno in sazaneK's light novel. 
+Amaryllis is a character in light novel <黄昏色の詠使い> and <氷結鏡界のエデン> written by 細音啓(sazaneK). 
+Although nobody unserstands her, she still guards her sister and the world persistently.
 
-Armariris is the meaning of Amaryllis in conlang Selahpheno in sazaneK's light novel.
 
 ### Install
 ```shell
