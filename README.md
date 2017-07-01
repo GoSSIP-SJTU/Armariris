@@ -19,7 +19,7 @@ Armariris是作者自创语言Selahpheno中孤挺花的意思.
 ```shell
 mkdir obf
 cd obf
-clone git@github.com:gossip-sjtu/Armariris.git
+git clone https://github.com/gossip-sjtu/Armariris
 cmake -DCMAKE_BUILD_TYPE:String=Release ./Armariris
 make -j4
 ```
@@ -52,7 +52,7 @@ Although nobody unserstands her, she still guards her sister and the world persi
 ```shell
 mkdir obf
 cd obf
-clone git@github.com:gossip-sjtu/Armariris.git
+git clone https://github.com/gossip-sjtu/Armariris
 cmake -DCMAKE_BUILD_TYPE:String=Release ./Armariris
 make -j4
 ```
