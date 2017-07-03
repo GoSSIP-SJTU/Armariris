@@ -35,20 +35,6 @@ namespace llvm {
                     is_flag = flag;
                 }
 
-                /*virtual bool doInitialization(Module &) {
-                        multicompiler::ShuffleStackFrames = true;
-                        multicompiler::MaxStackFramePadding = 1024;
-
-                        multicompiler::PreRARandomizerRange = -1;
-
-                        multicompiler::NOPInsertionPercentage = 50;
-                        multicompiler::MaxNOPsPerInstruction = 8;
-                        multicompiler::EquivSubstPercentage = 50;
-                        multicompiler::RandomizeFunctionList = 1;
-
-                        return true;
-                }*/
-
                 virtual bool runOnModule(Module &M) {
                         if(!is_flag)
                             return false;
@@ -117,14 +103,6 @@ namespace llvm {
                                         toDelConstGlob.push_back(gv);
 
                                 }
-                                //errs() << '\n';
-                                /*for (Value::use_iterator jj = gv->use_begin();
-                                                        jj != gv->use_end(); ++jj) {
-                                        Instruction *Inst = dyn_cast<Instruction>(*jj);
-                                        can also be ConstantExpr
-                      if (!Inst) continue;
-                                        errs() << "used in instr: " << *Inst << '\n';
-                                }*/
                         }
 
                         // actuallte delete marked globals
