@@ -558,8 +558,9 @@ void CryptoUtils::prng_seed(const std::string _seed) {
   // AES128 key-schedule
   std::mt19937 gens(seeds);
   this->gen = gens;
-
   seeded = true;
+  // Fill the pool with psuedo-random values
+  populate_pool();
 }
 
 CryptoUtils::~CryptoUtils() {
