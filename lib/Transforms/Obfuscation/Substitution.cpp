@@ -130,13 +130,18 @@ Pass *llvm::createSubstitution(bool flag) { return new Substitution(flag); }
 
 bool Substitution::runOnFunction(Function &F) {
   Function *tmp = &F;
+
+  if(F.getName().find(".datadiv_do_decode") != std::string::npos)
+    return false;
+  if(F.getName().find(".datadiv_decode") != std::string::npos)
+    return false;
   unsigned original = 0;
   for(auto B = F.begin(); B != F.end(); B++)
     for(auto I = B->begin(); I != B->end(); I++)
       original++;
   if (toObfuscate(flag, tmp, "sub")) {
     substitute(tmp);
-  
+
   unsigned now = 0;
   for(auto B = F.begin(); B != F.end(); B++)
     for(auto I = B->begin(); I != B->end(); I++)
@@ -148,13 +153,21 @@ bool Substitution::runOnFunction(Function &F) {
 
 bool Substitution::substitute(Function *f) {
   Function *tmp = f;
-
   // Loop for the number of time we run the pass on the function
   int times = ObfTimes;
   do {
     for (Function::iterator bb = tmp->begin(); bb != tmp->end(); ++bb) {
       for (BasicBlock::iterator inst = bb->begin(); inst != bb->end(); ++inst) {
         if (inst->isBinaryOp()) {
+          bool is_break = false;
+          for(Value::use_iterator uu = inst->use_begin(); uu != inst->use_end(); uu++)  //when value is used by cast inst, transform them may rise bug
+            if(dyn_cast<ZExtInst>(&*uu) != NULL)
+            {
+              is_break = true;
+              break;
+            }
+          if(is_break)
+            continue;
           switch (inst->getOpcode()) {
           case BinaryOperator::Add:
             // case BinaryOperator::FAdd:
