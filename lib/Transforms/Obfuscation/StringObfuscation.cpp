@@ -50,7 +50,7 @@ namespace llvm {
                                 std::string section(gv->getSection());
 
                                 // Let's encode the static ones
-                                if (gv->isConstant() && gv->hasInitializer() && str_idx == 0 && section != "llvm.metadata") {
+                                if (gv->isConstant() && gv->hasInitializer() && isa<ConstantDataSequential>(gv->getInitializer()) && section != "llvm.metadata" && section.find("__objc_methname") == std::string::npos) {
                                         ++GlobalsEncoded;
                                         //errs() << " is constant";
 
@@ -62,7 +62,7 @@ namespace llvm {
                                                                                   (GlobalVariable*) 0,
                                                                                   gv->getThreadLocalMode(),
                                                                                   gv->getType()->getAddressSpace());
-                                        dynGV->copyAttributesFrom(gv);
+                                        // dynGV->copyAttributesFrom(gv);
                                         dynGV->setInitializer(gv->getInitializer());
 
                                         Constant *initializer = gv->getInitializer();
