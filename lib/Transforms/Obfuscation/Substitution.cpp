@@ -160,8 +160,8 @@ bool Substitution::substitute(Function *f) {
       for (BasicBlock::iterator inst = bb->begin(); inst != bb->end(); ++inst) {
         if (inst->isBinaryOp()) {
           bool is_break = false;
-          for(Value::use_iterator uu = inst->use_begin(); uu != inst->use_end(); uu++)  //when value is used by cast inst, transform them may rise bug
-            if(dyn_cast<ZExtInst>(&*uu) != NULL)
+          for(User* uu : inst->users()) 
+            if(isa<CastInst>(uu))
             {
               is_break = true;
               break;
