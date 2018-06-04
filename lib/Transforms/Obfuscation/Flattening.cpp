@@ -24,13 +24,13 @@ struct Flattening : public FunctionPass {
   bool flag;
 
   Flattening() : FunctionPass(ID) {}
-  Flattening(bool flag) : FunctionPass(ID) { 
+  Flattening(bool flag) : FunctionPass(ID) {
     this->flag = flag;
     // Check if the number of applications is correct
     if ( !((Percentage > 0) && (Percentage <= 100)) ) {
       LLVMContext ctx;
       ctx.emitError(Twine ("Flattening application function percentage -perFLA=x must be 0 < x <= 100"));
-    } 
+    }
   }
 
   bool runOnFunction(Function &F);
@@ -47,8 +47,16 @@ bool Flattening::runOnFunction(Function &F) {
 
   // Do we obfuscate
   if (toObfuscate(flag, tmp, "fla") && ((int)llvm::cryptoutils->get_range(100) <= Percentage)) {
-    //errs() << "fla " + F.getName() +"\n";
-    if (flatten(tmp)) {
+    //errs()<<"Flatten: "<<tmp->getName()<<"\n";
+
+      /*if(tmp->getName()=="main"){
+        errs()<<"Function: "<<tmp->getName()<<"\n";
+        //fixStack(tmp);
+        flatten(tmp);
+        ++Flattened;
+      }*/
+    if(flatten(tmp)) {
+    //  errs()<<"Function: "<<tmp->getName()<<"\n";
       ++Flattened;
     }
   }
@@ -74,13 +82,19 @@ bool Flattening::flatten(Function *f) {
   lower->runOnFunction(*f);
 
   // Save all original BB
+  //errs()<<"Flatten: "<<f->getName()<<"\n";
   for (Function::iterator i = f->begin(); i != f->end(); ++i) {
     BasicBlock *tmp = &*i;
     origBB.push_back(tmp);
 
     BasicBlock *bb = &*i;
+    //errs()<<(bb->getTerminator()->getNumSuccessors())<<"\n";
     if (isa<InvokeInst>(bb->getTerminator())) {
-      return false;
+      /*if(f->getName()=="main"){
+        continue;
+      }*/
+      //return false;
+      continue;
     }
   }
 
@@ -88,6 +102,8 @@ bool Flattening::flatten(Function *f) {
   if (origBB.size() <= 1) {
     return false;
   }
+
+
 
   // Remove first BB
   origBB.erase(origBB.begin());
@@ -100,22 +116,27 @@ bool Flattening::flatten(Function *f) {
   BranchInst *br = NULL;
   if (isa<BranchInst>(insert->getTerminator())) {
     br = cast<BranchInst>(insert->getTerminator());
+    //errs()<<"Branch Inst"<<"\n";
   }
 
   if ((br != NULL && br->isConditional()) ||
       insert->getTerminator()->getNumSuccessors() > 1) {
     BasicBlock::iterator i = insert->back().getIterator();
+    //errs()<<"Conditional Branch"<<"\n";
 
     if (insert->size() > 1) {
-      i--;
+      i--;                    //Get the second last instruction
     }
 
+    //errs()<<"IF Original Terminator: "<<*(insert->getTerminator())<<"\n";
     BasicBlock *tmpBB = insert->splitBasicBlock(i, "first");
     origBB.insert(origBB.begin(), tmpBB);
   }
 
   // Remove jump
+  //errs()<<"Terminator: "<<*(insert->getTerminator())<<"\n";
   insert->getTerminator()->eraseFromParent();
+  //errs()<<"New Terminator: "<<*(insert->back().getIterator())<<"\n";
 
   // Create switch variable and set as it
   switchVar =
@@ -147,9 +168,10 @@ bool Flattening::flatten(Function *f) {
   switchI->setCondition(load);
 
   // Remove branch jump from 1st BB and make a jump to the while
-  f->begin()->getTerminator()->eraseFromParent();
+  //errs()<<"Terminator: "<<*(f->begin()->getTerminator())<<"\n";
 
-  BranchInst::Create(loopEntry, &*(f->begin()));
+  //f->begin()->getTerminator()->eraseFromParent();//???????????????????????????????????????????????????????????????????????
+  //BranchInst::Create(loopEntry, &*(f->begin()));//????????????????????????????????????????????????????????????????????????
 
   // Put all BB in the switch
   for (vector<BasicBlock *>::iterator b = origBB.begin(); b != origBB.end();
@@ -168,10 +190,53 @@ bool Flattening::flatten(Function *f) {
   }
 
   // Recalculate switchVar
+  //errs()<<"Function: "<<f->getName()<<"\n";
   for (vector<BasicBlock *>::iterator b = origBB.begin(); b != origBB.end();
        ++b) {
     BasicBlock *i = *b;
     ConstantInt *numCase = NULL;
+
+  //  errs()<<"Terminator: "<<*(i->getTerminator())<<"\n";
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    if(isa<InvokeInst>(i->getTerminator())){
+      /*errs()<<"Has invoke instruction"<<"\n";
+      errs()<<*(i->getTerminator())<<"\n";
+      */
+      InvokeInst *tmp=cast<InvokeInst>(i->getTerminator());
+      //i->getTerminator()->eraseFromParent();
+
+      BasicBlock *transfer=BasicBlock::Create(f->getContext(), "Transfer", f, insert);
+      BasicBlock *normal=tmp->getNormalDest();
+      transfer->moveBefore(loopEnd);
+      numCase = cast<ConstantInt>(ConstantInt::get(
+          switchI->getCondition()->getType(),
+          llvm::cryptoutils->scramble32(switchI->getNumCases(), scrambling_key)));
+      switchI->addCase(numCase, transfer);
+      BranchInst::Create(normal,transfer);
+
+      tmp->setNormalDest(transfer);
+
+      numCase = switchI->findCaseDest(transfer);
+
+      if (numCase == NULL) {
+        numCase = cast<ConstantInt>(
+            ConstantInt::get(switchI->getCondition()->getType(),
+                             llvm::cryptoutils->scramble32(
+                                 switchI->getNumCases() - 1, scrambling_key)));
+      }
+
+      StoreInst *store=new StoreInst(numCase, load->getPointerOperand(),i);
+      store->moveBefore(tmp);
+
+      BranchInst::Create(loopEnd, i);
+      //tmp->eraseFromParent();
+      continue;
+
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     // Ret BB
     if (i->getTerminator()->getNumSuccessors() == 0) {
