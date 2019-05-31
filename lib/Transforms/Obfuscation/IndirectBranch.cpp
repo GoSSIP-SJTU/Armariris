@@ -1,6 +1,8 @@
 /*
     LLVM Indirect Branching Pass
     Copyright (C) 2017 Zhang(https://github.com/Naville/)
+    For the latest version of this license, please refer to [Hikari/wiki/License](https://github.com/HikariObfuscator/Hikari/wiki/License)
+
     // Hikari is relicensed from Obfuscator-LLVM and LLVM upstream's permissive NCSA license
     // to GNU Affero General Public License Version 3 with exceptions listed below.
     // tl;dr: The obfuscated LLVM IR and/or obfuscated binary is not restricted in anyway,
@@ -129,14 +131,14 @@ struct IndirectBranch : public FunctionPass {
         // Create a new GV
         // Constant *BlockAddressArray =
         //     ConstantArray::get(AT, ArrayRef<Constant *>(BlockAddresses));
-        
+
         // LoadFrom = new GlobalVariable(
         //     *Func.getParent(), AT, false,
         //     GlobalValue::LinkageTypes::InternalLinkage, BlockAddressArray,
         //     "HikariConditionalLocalIndirectBranchingTable_"+getRandomName());
         // LoadFrom->setSection("");
         // appendToCompilerUsed(*Func.getParent(), {LoadFrom});
-        
+
        /*
         std::string local_name = "local_name."+getRandomName();
         Func.getParent().getOrInsertGlobal(local_name,AT);
@@ -163,7 +165,7 @@ struct IndirectBranch : public FunctionPass {
             br_addr = IRB.CreateLoad(LoadFrom);
             //ConstantInt::get(Type::getInt32Ty(Func.getParent()->getContext()), 1);
       }
-        
+
         IndirectBrInst *indirBr = IndirectBrInst::Create(br_addr, BBs.size(),BI);
         for (BasicBlock *BB : BBs) {
            indirBr->addDestination(BB);
