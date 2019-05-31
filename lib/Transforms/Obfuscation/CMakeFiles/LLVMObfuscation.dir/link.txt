@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../libLLVMObfuscation.a  CMakeFiles/LLVMObfuscation.dir/CryptoUtils.cpp.o CMakeFiles/LLVMObfuscation.dir/Substitution.cpp.o CMakeFiles/LLVMObfuscation.dir/BogusControlFlow.cpp.o CMakeFiles/LLVMObfuscation.dir/Utils.cpp.o CMakeFiles/LLVMObfuscation.dir/SplitBasicBlocks.cpp.o CMakeFiles/LLVMObfuscation.dir/Flattening.cpp.o CMakeFiles/LLVMObfuscation.dir/ArrayObfs.cpp.o CMakeFiles/LLVMObfuscation.dir/DiverseFunction.cpp.o CMakeFiles/LLVMObfuscation.dir/SplitFunction.cpp.o
-/usr/bin/ranlib ../../libLLVMObfuscation.a
