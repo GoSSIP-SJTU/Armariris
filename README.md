@@ -88,3 +88,5 @@ Add option for setting random seed.
 ```shell
 -mllvm -seed=0xdeadbeaf
 ```
+Add new feature (indirect branch) and fix bug within it.
+more deteails can be referenced in https://github.com/Naville
