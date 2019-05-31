@@ -1,8 +1,6 @@
 # Armariris
 孤挺花（Armariris） --  由上海交通大学密码与计算机安全实验室维护的LLVM混淆框架
 
-主要作者：f1ys0ar（https://github.com/flysoar/ ）
-
 ## 中文
 孤挺花（Armariris）: 基于LLVM的支持多平台多语言的混淆器
 
