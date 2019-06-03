@@ -86,4 +86,3 @@ Add option for setting random seed.
 ```shell
 -mllvm -seed=0xdeadbeaf
 ```
-Fix bugs and add one new feature "indirect branch" (from https://github.com/HikariObfuscator/Hikari)
